@@ -1,5 +1,7 @@
 package pl.marconzet.engine;
 
+import pl.marconzet.engine.shader.StaticShader;
+
 import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -17,20 +19,28 @@ public class Test {
                 -0.5f, 0.5f, 0f,
                 -0.5f, -0.5f, 0f,
                 0.5f, -0.5f, 0f,
-                0.5f, -0.5f, 0f,
-                0.5f, 0.5f, 0f,
-                -0.5f, 0.5f, 0f
+                0.5f, 0.5f,0
         };
 
+        int[] indices = {
+                0, 1, 3,
+                3, 1, 2
+        };
         display.createDisplay();
-        RawModel model = loader.loadToVAO(vertices);
+
+        StaticShader shader = new StaticShader();
+
+        RawModel model = loader.loadToVAO(vertices, indices);
 
         while(!glfwWindowShouldClose(display.getWindowHandle())){
-            //renderer.prepare();
+            renderer.prepare();
+            shader.start();
             renderer.render(model);
+            shader.stop();
             display.updateDisplay();
         }
 
+        shader.cleanUp();
         loader.cleanUp();
         display.closeDisplay();
     }
