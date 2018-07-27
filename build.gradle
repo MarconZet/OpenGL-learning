@@ -1,0 +1,44 @@
+plugins {
+    id 'java'
+}
+
+group 'pl.marconzet'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+static def os() {
+    def system = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH)
+    if(system.contains("nux")) return "linux"
+    else if(system.contains("windows")) return "windows"
+    else if(system.contains("mac")) return "macos"
+    else throw new IllegalStateException("Unsupported operating system")
+}
+
+def platform = os()
+def lwjglVersion = "3.1.0"
+def lwjglNatives = "natives-${platform}"
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'kephale', name: 'slick-util', version: '1.0.1'
+
+    // LWJGL dependencies
+    compile "org.lwjgl:lwjgl:${lwjglVersion}"
+    compile "org.lwjgl:lwjgl-egl:${lwjglVersion}"
+    compile "org.lwjgl:lwjgl-glfw:${lwjglVersion}"
+    compile "org.lwjgl:lwjgl-jawt:${lwjglVersion}"
+    compile "org.lwjgl:lwjgl-openal:${lwjglVersion}"
+    compile "org.lwjgl:lwjgl-opencl:${lwjglVersion}"
+    compile "org.lwjgl:lwjgl-opengl:${lwjglVersion}"
+    // LWJGL natives
+    runtime "org.lwjgl:lwjgl:${lwjglVersion}:${lwjglNatives}"
+    runtime "org.lwjgl:lwjgl-glfw:${lwjglVersion}:${lwjglNatives}"
+    runtime "org.lwjgl:lwjgl-openal:${lwjglVersion}:${lwjglNatives}"
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
