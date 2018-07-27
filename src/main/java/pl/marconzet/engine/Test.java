@@ -10,10 +10,28 @@ public class Test {
     private static DisplayManager display = new DisplayManager();
 
     public static void main(String... args){
+        Loader loader = new Loader();
+        Renderer renderer = new Renderer();
+
+        float[] vertices = {
+                -0.5f, 0.5f, 0f,
+                -0.5f, -0.5f, 0f,
+                0.5f, -0.5f, 0f,
+                0.5f, -0.5f, 0f,
+                0.5f, 0.5f, 0f,
+                -0.5f, 0.5f, 0f
+        };
+
         display.createDisplay();
+        RawModel model = loader.loadToVAO(vertices);
+
         while(!glfwWindowShouldClose(display.getWindowHandle())){
+            //renderer.prepare();
+            renderer.render(model);
             display.updateDisplay();
         }
+
+        loader.cleanUp();
         display.closeDisplay();
     }
 }

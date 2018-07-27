@@ -40,8 +40,6 @@ public class DisplayManager {
 
         glfwSwapInterval(1);
         glfwShowWindow(windowHandle);
-
-        glClearColor(1, 0, 0, 1);
     }
 
     public void updateDisplay() {
