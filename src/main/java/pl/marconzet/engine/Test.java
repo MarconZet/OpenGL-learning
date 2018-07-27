@@ -11,28 +11,29 @@ import static org.lwjgl.glfw.GLFW.*;
 public class Test {
     private static DisplayManager display = new DisplayManager();
 
-    public static void main(String... args){
+    public static void main(String[] args) {
+
+        display.createDisplay();
         Loader loader = new Loader();
         Renderer renderer = new Renderer();
+        StaticShader shader = new StaticShader();
 
         float[] vertices = {
-                -0.5f, 0.5f, 0f,
-                -0.5f, -0.5f, 0f,
-                0.5f, -0.5f, 0f,
-                0.5f, 0.5f,0
+                -0.5f,0.5f,0,	//V0
+                -0.5f,-0.5f,0,	//V1
+                0.5f,-0.5f,0,	//V2
+                0.5f,0.5f,0		//V3
         };
 
         int[] indices = {
-                0, 1, 3,
-                3, 1, 2
+                0,1,3,	//Top left triangle (V0,V1,V3)
+                3,1,2	//Bottom right triangle (V3,V1,V2)
         };
-        display.createDisplay();
 
-        StaticShader shader = new StaticShader();
+        RawModel model = loader.loadToVAO(vertices,indices);
 
-        RawModel model = loader.loadToVAO(vertices, indices);
-
-        while(!glfwWindowShouldClose(display.getWindowHandle())){
+        while(!display.isCloseRequested()){
+            //game logic
             renderer.prepare();
             shader.start();
             renderer.render(model);
@@ -43,5 +44,5 @@ public class Test {
         shader.cleanUp();
         loader.cleanUp();
         display.closeDisplay();
-    }
-}
+
+    }}
