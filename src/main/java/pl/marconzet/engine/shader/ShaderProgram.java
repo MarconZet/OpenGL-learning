@@ -47,7 +47,8 @@ public abstract class ShaderProgram {
         GL20.glBindAttribLocation(programID, attribute, variableName);
     }
 
-    private static int loadShader(String file, int type){
+    private static int loadShader(String resource, int type){
+        String file = ShaderProgram.class.getResource(resource).getFile();
         StringBuilder shaderSource = new StringBuilder();
         try{
             BufferedReader reader = new BufferedReader(new FileReader(file));

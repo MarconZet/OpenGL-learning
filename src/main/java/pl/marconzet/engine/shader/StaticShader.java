@@ -7,8 +7,8 @@ import java.nio.file.Paths;
 
 public class StaticShader extends ShaderProgram {
 
-    private static final String frag_reference = "C:\\Users\\Marcin\\IdeaProjects\\OpenGL-learning\\src\\main\\glsl\\pl\\marconzet\\engine\\shader\\fragmentShader.glsl";
-    private static final String ver_reference = "C:\\Users\\Marcin\\IdeaProjects\\OpenGL-learning\\src\\main\\glsl\\pl\\marconzet\\engine\\shader\\vertexShader.glsl";
+    private static final String frag_reference = "fragmentShader.glsl";
+    private static final String ver_reference = "vertexShader.glsl";
 
     public StaticShader() {
         super(ver_reference, frag_reference);
