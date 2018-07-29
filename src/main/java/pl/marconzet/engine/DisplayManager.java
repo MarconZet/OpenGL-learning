@@ -45,7 +45,6 @@ public class DisplayManager {
     }
 
     public void updateDisplay() {
-        glClear(GL_COLOR_BUFFER_BIT);
         glfwSwapBuffers(windowHandle);
         glfwPollEvents();
     }
