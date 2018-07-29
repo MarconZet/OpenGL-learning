@@ -1,4 +1,4 @@
-package pl.marconzet.engine;
+package pl.marconzet.engine.models;
 
 public class RawModel {
 

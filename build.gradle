@@ -26,7 +26,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'kephale', name: 'slick-util', version: '1.0.1'
+    compile group: 'slick-util', name: 'slick-util', version: '1.0.0'
 
     // LWJGL dependencies
     compile "org.lwjgl:lwjgl:${lwjglVersion}"
@@ -43,11 +43,3 @@ dependencies {
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
-
-idea{
-    module{
-        sourceDirs += file('glsl')
-        logger.info("$sourceDirs")
-    }
-}
-
