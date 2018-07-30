@@ -1,9 +1,8 @@
 package pl.marconzet.engine.properties;
 
+import org.joml.Matrix4f;
 import org.joml.Quaternionf;
-
-import javax.vecmath.Matrix4f;
-import javax.vecmath.Vector3f;
+import org.joml.Vector3f;
 
 public class TransformationProperty {
     private Vector3f translation;
@@ -20,9 +19,10 @@ public class TransformationProperty {
 
     public Matrix4f toTransforationMatrix(){
         Matrix4f matrix = new Matrix4f();
-        matrix.setIdentity();
-        matrix.setTranslation(translation);
-        throw new UnsupportedOperationException("Szymon help pls");
+        matrix.rotate(rotation);
+        matrix.scale(scale);
+        matrix.translate(translation);
+        return matrix;
     }
 
     public Vector3f getTranslation() {

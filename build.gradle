@@ -26,7 +26,6 @@ repositories {
 }
 
 dependencies {
-    compile group: 'javax.vecmath', name: 'vecmath', version: '1.5.2'
     compile group: 'org.joml', name: 'joml', version: '1.9.10'
 
     // LWJGL dependencies
