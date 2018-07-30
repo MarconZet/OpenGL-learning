@@ -1,10 +1,6 @@
 package pl.marconzet.engine.shader;
 
-import javax.vecmath.Matrix4f;
-import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Paths;
+import org.joml.Matrix4f;
 
 public class StaticShader extends ShaderProgram {
 

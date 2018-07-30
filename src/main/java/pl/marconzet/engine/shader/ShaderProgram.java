@@ -1,19 +1,15 @@
 package pl.marconzet.engine.shader;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.FloatBuffer;
-import java.util.Vector;
-
-import com.sun.javafx.geom.Matrix3f;
-import com.sun.javafx.geom.Vec3f;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
-import javax.vecmath.Matrix4f;
-import javax.vecmath.Vector3f;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.FloatBuffer;
 
 public abstract class ShaderProgram {
 
@@ -77,23 +73,22 @@ public abstract class ShaderProgram {
     }
 
     protected void loadMatrix(int location, Matrix4f matrix){
-
-        matrixBuffer.put(matrix.getM00());
-        matrixBuffer.put(matrix.getM01());
-        matrixBuffer.put(matrix.getM02());
-        matrixBuffer.put(matrix.getM03());
-        matrixBuffer.put(matrix.getM10());
-        matrixBuffer.put(matrix.getM11());
-        matrixBuffer.put(matrix.getM12());
-        matrixBuffer.put(matrix.getM13());
-        matrixBuffer.put(matrix.getM20());
-        matrixBuffer.put(matrix.getM21());
-        matrixBuffer.put(matrix.getM22());
-        matrixBuffer.put(matrix.getM23());
-        matrixBuffer.put(matrix.getM30());
-        matrixBuffer.put(matrix.getM31());
-        matrixBuffer.put(matrix.getM32());
-        matrixBuffer.put(matrix.getM33());
+        matrixBuffer.put(matrix.m00());
+        matrixBuffer.put(matrix.m01());
+        matrixBuffer.put(matrix.m02());
+        matrixBuffer.put(matrix.m03());
+        matrixBuffer.put(matrix.m10());
+        matrixBuffer.put(matrix.m11());
+        matrixBuffer.put(matrix.m12());
+        matrixBuffer.put(matrix.m13());
+        matrixBuffer.put(matrix.m20());
+        matrixBuffer.put(matrix.m21());
+        matrixBuffer.put(matrix.m22());
+        matrixBuffer.put(matrix.m23());
+        matrixBuffer.put(matrix.m30());
+        matrixBuffer.put(matrix.m31());
+        matrixBuffer.put(matrix.m32());
+        matrixBuffer.put(matrix.m33());
 
         matrixBuffer.flip();
 
