@@ -26,7 +26,8 @@ repositories {
 }
 
 dependencies {
-    compile group: 'slick-util', name: 'slick-util', version: '1.0.0'
+    compile group: 'javax.vecmath', name: 'vecmath', version: '1.5.2'
+    compile group: 'org.joml', name: 'joml', version: '1.9.10'
 
     // LWJGL dependencies
     compile "org.lwjgl:lwjgl:${lwjglVersion}"
