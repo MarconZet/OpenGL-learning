@@ -113,7 +113,7 @@ public class Test {
         Camera camera = new Camera(new CameraProperty(shader), new TransformationProperty());
 
         while(!display.isCloseRequested()){
-            property.increaseRotation(new Vector3f((float) Math.PI/64, (float) Math.PI/64, 0f));
+            property.increaseRotation(new Vector3f((float) Math.PI/128, (float) Math.PI/128, (float) Math.PI/128));
             camera.move(display.getWindowHandle());
             renderer.prepare();
             shader.start();

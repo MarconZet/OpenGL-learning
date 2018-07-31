@@ -22,6 +22,12 @@ public class Camera {
             transformationProperty.increasePosition(new Vector3f(0.02f, 0, 0));
         if(isKeyPresed(GLFW.GLFW_KEY_A, windowHandle))
             transformationProperty.increasePosition(new Vector3f(-0.02f, 0, 0));
+        if(isKeyPresed(GLFW.GLFW_KEY_S, windowHandle))
+            transformationProperty.increasePosition(new Vector3f(0, 0, 0.02f));
+        if(isKeyPresed(GLFW.GLFW_KEY_E, windowHandle))
+            transformationProperty.increaseRotation(new Vector3f(0, (float)Math.PI/128, 0));
+        if(isKeyPresed(GLFW.GLFW_KEY_Q, windowHandle))
+            transformationProperty.increaseRotation(new Vector3f(0, -(float)Math.PI/128, 0));
 
     }
 
