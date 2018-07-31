@@ -1,13 +1,10 @@
 package pl.marconzet.engine;
 
 import org.lwjgl.glfw.GLFWErrorCallback;
-import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 
-import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
-import static org.lwjgl.opengl.GL11.*;
 
 
 /**
@@ -17,8 +14,8 @@ public class DisplayManager {
 
     private long windowHandle;
 
-    private static final int WIDTH = 1280;
-    private static final int HEIGHT = 720;
+    public static final int WIDTH = 1280;
+    public static final int HEIGHT = 720;
     private GLFWErrorCallback errorCallback;
 
     public void createDisplay() {
