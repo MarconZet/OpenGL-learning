@@ -16,19 +16,17 @@ public class Camera {
     }
 
     public void move(long windowHandle){
-        if(isKeyPresed(GLFW.GLFW_KEY_W, windowHandle))
-            transformationProperty.increasePosition(new Vector3f(0, 0, -0.02f));
-        if(isKeyPresed(GLFW.GLFW_KEY_D, windowHandle))
-            transformationProperty.increasePosition(new Vector3f(0.02f, 0, 0));
-        if(isKeyPresed(GLFW.GLFW_KEY_A, windowHandle))
-            transformationProperty.increasePosition(new Vector3f(-0.02f, 0, 0));
-        if(isKeyPresed(GLFW.GLFW_KEY_S, windowHandle))
-            transformationProperty.increasePosition(new Vector3f(0, 0, 0.02f));
-        if(isKeyPresed(GLFW.GLFW_KEY_E, windowHandle))
-            transformationProperty.increaseRotation(new Vector3f(0, (float)Math.PI/128, 0));
-        if(isKeyPresed(GLFW.GLFW_KEY_Q, windowHandle))
-            transformationProperty.increaseRotation(new Vector3f(0, -(float)Math.PI/128, 0));
-
+        Vector3f translatation = new Vector3f();
+        Vector3f rotation = new Vector3f();
+        if(isKeyPresed(GLFW.GLFW_KEY_W, windowHandle)) translatation.z += -0.02f;
+        if(isKeyPresed(GLFW.GLFW_KEY_S, windowHandle)) translatation.z += 0.02f;
+        if(isKeyPresed(GLFW.GLFW_KEY_D, windowHandle)) translatation.x += 0.02f;
+        if(isKeyPresed(GLFW.GLFW_KEY_A, windowHandle)) translatation.x += -0.02f;
+        if(isKeyPresed(GLFW.GLFW_KEY_E, windowHandle)) rotation.add(0,(float)Math.PI/128,0);
+        if(isKeyPresed(GLFW.GLFW_KEY_Q, windowHandle)) rotation.add(0,-(float)Math.PI/128,0);
+        translatation.rotate(transformationProperty.getRotation());
+        transformationProperty.increasePosition(translatation);
+        transformationProperty.increaseRotation(rotation);
     }
 
     private boolean isKeyPresed(int keyValue, long windowHandle){

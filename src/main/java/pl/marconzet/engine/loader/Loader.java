@@ -1,6 +1,10 @@
-package pl.marconzet.engine;
+package pl.marconzet.engine.loader;
 
-import java.io.FileInputStream;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.*;
+import pl.marconzet.engine.models.RawModel;
+import pl.marconzet.engine.texture.PNGDecoder;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -8,13 +12,6 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.sun.prism.Texture;
-import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.*;
-import pl.marconzet.engine.models.RawModel;
-import pl.marconzet.engine.texture.PNGDecoder;
-import sun.awt.image.PNGImageDecoder;
 
 public class Loader {
 
@@ -29,6 +26,10 @@ public class Loader {
         storeDataInAttributeList(1, 2, textureCoords);
         unbindVAO();
         return new RawModel(vaoID,indices.length);
+    }
+
+    public RawModel loadFromObj(InputStream inputStream){
+        return ObjFile.read(inputStream, true).toRawModel(this);
     }
 
     public int loadTexture(InputStream inputStream){
