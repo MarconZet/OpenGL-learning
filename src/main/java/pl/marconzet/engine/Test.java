@@ -1,8 +1,10 @@
 package pl.marconzet.engine;
 
 import org.joml.Vector3f;
+import org.lwjgl.glfw.GLFW;
 import pl.marconzet.engine.entity.Camera;
 import pl.marconzet.engine.entity.Entity;
+import pl.marconzet.engine.entity.Light;
 import pl.marconzet.engine.loader.Loader;
 import pl.marconzet.engine.models.RawModel;
 import pl.marconzet.engine.models.TextureModel;
@@ -23,22 +25,28 @@ public class Test {
         Loader loader = new Loader();
         StaticShader shader = new StaticShader();
         Renderer renderer = new Renderer();
+        new Input(display.getWindowHandle());
 
-        RawModel model = loader.loadFromObj(Test.class.getResourceAsStream("models/stall.obj"));
-        ModelTexture texture = new ModelTexture(loader.loadTexture(Test.class.getResourceAsStream("texture/stallTexture.png")));
+        RawModel model = loader.loadFromObj(Test.class.getResourceAsStream("models/dragon.obj"));
+        ModelTexture texture = new ModelTexture(loader.loadTexture(Test.class.getResourceAsStream("texture/texture.png")));
+        texture.setShineDamper(10);
+        texture.setReflectivity(1);
         TextureModel textureModel = new TextureModel(model, texture);
 
         TransformationProperty property = new TransformationProperty();
-        property.increasePosition(new Vector3f(0, 0, -10f));
-        property.getScale().mul(0.5f);
+        property.increasePosition(new Vector3f(0, 0, -5f));
+        property.getScale().mul(0.2f);
         Entity entity = new Entity(textureModel, property);
+        Light light = new Light(new Vector3f(5,0,10), new Vector3f(1,1,1));
 
         Camera camera = new Camera(new CameraProperty(shader), new TransformationProperty());
 
-        while(!display.isCloseRequested()){
-            camera.move(display.getWindowHandle());
+        while(!display.isCloseRequested() && !Input.INSTANCE.isKeyPresed(GLFW.GLFW_KEY_ESCAPE)){
+            property.increaseRotation(new Vector3f(0,(float)Math.PI/128, 0));
+            camera.move();
             renderer.prepare();
             shader.start();
+            shader.loadLight(light);
             shader.loadViewMatrix(camera);
             renderer.render(entity, shader);
             shader.stop();

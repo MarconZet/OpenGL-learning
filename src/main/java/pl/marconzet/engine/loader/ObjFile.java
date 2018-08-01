@@ -151,7 +151,7 @@ public class ObjFile {
         int[] indices = new int[this.indices.size()];
         load(v, t, n, indices);
 
-        return loader.loadToVAO(v, t, indices);
+        return loader.loadToVAO(v, t, n, indices);
     }
 
     private void load(float[] v, float[] t, float[] n, int[] indices) {

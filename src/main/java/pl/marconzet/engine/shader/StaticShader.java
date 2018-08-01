@@ -2,6 +2,7 @@ package pl.marconzet.engine.shader;
 
 import org.joml.Matrix4f;
 import pl.marconzet.engine.entity.Camera;
+import pl.marconzet.engine.entity.Light;
 
 public class StaticShader extends ShaderProgram {
 
@@ -11,6 +12,10 @@ public class StaticShader extends ShaderProgram {
     private int location_transformationMatrix;
     private int location_projectionMatrix;
     private int location_viewMatrix;
+    private int location_lightPosition;
+    private int location_lightColour;
+    private int location_shineDamper;
+    private int location_reflectivity;
 
 
     public StaticShader() {
@@ -22,12 +27,17 @@ public class StaticShader extends ShaderProgram {
         location_transformationMatrix = super.getUniformLocation("transformationMatrix");
         location_projectionMatrix = super.getUniformLocation("projectionMatrix");
         location_viewMatrix = super.getUniformLocation("viewMatrix");
+        location_lightColour = super.getUniformLocation("lightColour");
+        location_lightPosition = super.getUniformLocation("lightPosition");
+        location_shineDamper = super.getUniformLocation("shineDamper");
+        location_reflectivity = super.getUniformLocation("reflectivity");
     }
 
     @Override
     protected void bindAttributes() {
         super.bindAttribute(0, "position");
         super.bindAttribute(1, "textureCoords");
+        super.bindAttribute(2, "normal");
     }
 
     public void loadTransMatrix(Matrix4f matrix){
@@ -41,6 +51,16 @@ public class StaticShader extends ShaderProgram {
     public void loadViewMatrix(Camera camera){
         Matrix4f matrix = camera.getTransformationProperty().toViewMatrix();
         super.loadMatrix(location_viewMatrix, matrix);
+    }
+
+    public void loadLight(Light light){
+        super.loadVector(location_lightColour, light.getColour());
+        super.loadVector(location_lightPosition, light.getPosition());
+    }
+
+    public void loadShineVaraibles(float damper, float reflectivity){
+        super.loadFloat(location_shineDamper, damper);
+        super.loadFloat(location_reflectivity, reflectivity);
     }
 }
 
