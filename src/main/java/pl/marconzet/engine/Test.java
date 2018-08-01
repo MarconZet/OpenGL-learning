@@ -24,7 +24,6 @@ public class Test {
         display.createDisplay();
         Loader loader = new Loader();
         StaticShader shader = new StaticShader();
-        Renderer renderer = new Renderer();
         new Input(display.getWindowHandle());
 
         RawModel model = loader.loadFromObj(Test.class.getResourceAsStream("models/dragon.obj"));
@@ -41,19 +40,17 @@ public class Test {
 
         Camera camera = new Camera(new CameraProperty(shader), new TransformationProperty());
 
+        MasterRenderer renderer = new MasterRenderer(shader);
         while(!display.isCloseRequested() && !Input.INSTANCE.isKeyPresed(GLFW.GLFW_KEY_ESCAPE)){
-            property.increaseRotation(new Vector3f(0,(float)Math.PI/128, 0));
             camera.move();
-            renderer.prepare();
-            shader.start();
-            shader.loadLight(light);
-            shader.loadViewMatrix(camera);
-            renderer.render(entity, shader);
-            shader.stop();
+
+            renderer.processEntity(entity);
+
+            renderer.render(light, camera);
             display.updateDisplay();
         }
 
-        shader.cleanUp();
+        renderer.cleanUp();
         loader.cleanUp();
         display.closeDisplay();
 

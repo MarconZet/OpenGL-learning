@@ -1,6 +1,7 @@
 package pl.marconzet.engine.properties;
 
 import org.joml.Matrix4f;
+import org.lwjgl.opengl.GL11;
 import pl.marconzet.engine.DisplayManager;
 import pl.marconzet.engine.shader.StaticShader;
 
@@ -29,6 +30,8 @@ public class CameraProperty {
     }
 
     private void loadProjectionMatrixToShader(StaticShader shader){
+        GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glCullFace(GL11.GL_BACK);
         shader.start();
         shader.loadProjectionMatrix(this.getProjectionMatrix());
         shader.stop();

@@ -9,8 +9,17 @@ import pl.marconzet.engine.entity.Entity;
 import pl.marconzet.engine.models.RawModel;
 import pl.marconzet.engine.models.TextureModel;
 import pl.marconzet.engine.shader.StaticShader;
+import pl.marconzet.engine.texture.ModelTexture;
+
+import java.util.List;
+import java.util.Map;
 
 public class Renderer {
+    private StaticShader shader;
+
+    public Renderer(StaticShader shader) {
+        this.shader = shader;
+    }
 
     public void prepare(){
         GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -18,23 +27,40 @@ public class Renderer {
         GL11.glClearColor(0, 0, 1, 1);
     }
 
-    public void render(Entity entity, StaticShader shader){
-        TextureModel textureModel = entity.getModel();
-        RawModel model = textureModel.getRawModel();
-        GL30.glBindVertexArray(model.getVaoID());
+    public void render(Map<TextureModel, List<Entity>> entities){
+        entities.forEach((x, y) ->{
+            prepareTexturedModel(x);
+            y.forEach(z ->{
+                prepareInstance(z);
+                GL11.glDrawElements(GL11.GL_TRIANGLES, z.getModel().getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+
+            });
+            unbindTextureModel();
+        });
+    }
+
+    private void prepareTexturedModel(TextureModel model){
+        RawModel rawModel = model.getRawModel();
+        GL30.glBindVertexArray(rawModel.getVaoID());
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
         GL20.glEnableVertexAttribArray(2);
-        Matrix4f transformationMatrix = entity.getTransformation().toTransformationMatrix();
-        shader.loadTransMatrix(transformationMatrix);
-        shader.loadShineVaraibles(textureModel.getTexture().getShineDamper(), textureModel.getTexture().getReflectivity());
+
+        ModelTexture texture = model.getTexture();
+        shader.loadShineVaraibles(texture.getShineDamper(), texture.getReflectivity());
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureModel.getTexture().getTextureID());
-        GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTextureID());
+    }
+
+    private void unbindTextureModel(){
         GL20.glDisableVertexAttribArray(0);
         GL20.glDisableVertexAttribArray(1);
         GL20.glDisableVertexAttribArray(2);
         GL30.glBindVertexArray(0);
     }
 
+    private void prepareInstance(Entity entity){
+        Matrix4f transformationMatrix = entity.getTransformation().toTransformationMatrix();
+        shader.loadTransMatrix(transformationMatrix);
+    }
 }
