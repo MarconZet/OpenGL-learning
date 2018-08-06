@@ -21,11 +21,7 @@ public class EntityRenderer {
         this.shader = shader;
     }
 
-    public void prepare(){
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT|GL11.GL_DEPTH_BUFFER_BIT);
-        GL11.glClearColor(0, 0, 1, 1);
-    }
+
 
     public void render(Map<TextureModel, List<Entity>> entities){
         entities.forEach((x, y) ->{

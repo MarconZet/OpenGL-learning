@@ -1,5 +1,6 @@
 package pl.marconzet.engine;
 
+import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 import pl.marconzet.engine.entity.Camera;
 import pl.marconzet.engine.entity.Entity;
@@ -15,6 +16,8 @@ import java.util.Map;
 public class MasterRenderer {
     private StaticShader shader;
     private EntityRenderer entityRenderer;
+
+    private Vector3f sky = new Vector3f(0.5f, 0.5f, 0.5f);
 
     private Map<TextureModel, List<Entity>> entities = new HashMap<>();
 
@@ -33,9 +36,16 @@ public class MasterRenderer {
         GL11.glDisable(GL11.GL_CULL_FACE);
     }
 
+    public void prepare(){
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT|GL11.GL_DEPTH_BUFFER_BIT);
+        GL11.glClearColor(sky.x, sky.y, sky.z, 1);
+    }
+
     public void render(Light light, Camera camera){
-        entityRenderer.prepare();
+        prepare();
         shader.start();
+        shader.loadSkyColour(sky);
         shader.loadLight(light);
         shader.loadViewMatrix(camera);
         entityRenderer.render(entities);
