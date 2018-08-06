@@ -38,39 +38,45 @@ public class TransformationProperty {
         return matrix;
     }
 
-    public void increasePosition(Vector3f vector3f){
+    public TransformationProperty increasePosition(Vector3f vector3f){
         translation = translation.add(vector3f);
+        return this;
     }
 
-    public void increaseRotation(Vector3f vector3f){
+    public TransformationProperty increaseRotation(Vector3f vector3f){
         rotation = rotation.rotateXYZ(vector3f.x, vector3f.y, vector3f.z);
+        return this;
     }
 
-    public void increseScale(Vector3f vector3f){
+    public TransformationProperty increseScale(Vector3f vector3f){
         scale = scale.add(vector3f);
+        return this;
     }
 
     public Vector3f getTranslation() {
         return translation;
     }
 
-    public void setTranslation(Vector3f translation) {
+    public TransformationProperty setTranslation(Vector3f translation) {
         this.translation = translation;
+        return this;
     }
 
     public Quaternionf getRotation() {
         return rotation;
     }
 
-    public void setRotation(Quaternionf rotation) {
+    public TransformationProperty setRotation(Quaternionf rotation) {
         this.rotation = rotation;
+        return this;
     }
 
     public Vector3f getScale() {
         return scale;
     }
 
-    public void setScale(Vector3f scale) {
+    public TransformationProperty setScale(Vector3f scale) {
         this.scale = scale;
+        return this;
     }
 }

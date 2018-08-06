@@ -18,33 +18,42 @@ import pl.marconzet.engine.texture.ModelTexture;
  */
 public class Test {
     private static DisplayManager display = new DisplayManager();
+    private static Loader loader = new Loader();
 
     public static void main(String[] args) {
 
         display.createDisplay();
-        Loader loader = new Loader();
+
         StaticShader shader = new StaticShader();
         new Input(display.getWindowHandle());
 
-        RawModel model = loader.loadFromObj(Test.class.getResourceAsStream("models/dragon.obj"));
-        ModelTexture texture = new ModelTexture(loader.loadTexture(Test.class.getResourceAsStream("texture/texture.png")));
-        texture.setShineDamper(10);
-        texture.setReflectivity(1);
-        TextureModel textureModel = new TextureModel(model, texture);
+        String dragonModel = "models/dragon.obj";
+        String dragonTexture = "texture/tex.png";
+        Entity dragon = getEntity(dragonModel, dragonTexture);
+        dragon.getTransformation().increasePosition(new Vector3f(0, 0, -5f)).setScale(new Vector3f().set(0.2f));
+        dragon.getModel().getTexture().setReflectivity(3);
 
-        TransformationProperty property = new TransformationProperty();
-        property.increasePosition(new Vector3f(0, 0, -5f));
-        property.getScale().mul(0.2f);
-        Entity entity = new Entity(textureModel, property);
-        Light light = new Light(new Vector3f(5,0,10), new Vector3f(1,1,1));
+        String fernModel = "models/fern.obj";
+        String fernTexture = "texture/fern.png";
+        Entity fern = getEntity(fernModel, fernTexture);
+        fern.getTransformation().setTranslation(new Vector3f(0, 0, -5f)).setScale(new Vector3f().set(0.2f));
+        fern.getModel().getTexture().setTransparency(true);
 
+        String grassModel = "models/grass.obj";
+        String grassTexture = "texture/grass.png";
+        Entity grass = getEntity(grassModel, grassTexture);
+        grass.getTransformation().setScale(new Vector3f().set(0.1f)).setTranslation(new Vector3f(0, 0, -4));
+        grass.getModel().getTexture().setTransparency(true).setFakeLighting(true).setReflectivity(0);
+
+        Light light = new Light(new Vector3f(5,10,10), new Vector3f(1,1,1));
         Camera camera = new Camera(new CameraProperty(shader), new TransformationProperty());
 
         MasterRenderer renderer = new MasterRenderer(shader);
         while(!display.isCloseRequested() && !Input.INSTANCE.isKeyPresed(GLFW.GLFW_KEY_ESCAPE)){
             camera.move();
 
-            renderer.processEntity(entity);
+            renderer.processEntity(dragon);
+            renderer.processEntity(grass);
 
             renderer.render(light, camera);
             display.updateDisplay();
@@ -54,4 +63,14 @@ public class Test {
         loader.cleanUp();
         display.closeDisplay();
 
-    }}
+    }
+
+    private static Entity getEntity(String modelName, String textureName) {
+        RawModel model = loader.loadFromObj(Test.class.getResourceAsStream(modelName));
+        ModelTexture texture = new ModelTexture(loader.loadTexture(Test.class.getResourceAsStream(textureName)));
+        texture.setShineDamper(10).setReflectivity(1);
+        TextureModel textureModel = new TextureModel(model, texture);
+        TransformationProperty transformation = new TransformationProperty();
+        return new Entity(textureModel, transformation);
+    }
+}

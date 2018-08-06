@@ -1,5 +1,6 @@
 package pl.marconzet.engine;
 
+import org.lwjgl.opengl.GL11;
 import pl.marconzet.engine.entity.Camera;
 import pl.marconzet.engine.entity.Entity;
 import pl.marconzet.engine.entity.Light;
@@ -13,20 +14,31 @@ import java.util.Map;
 
 public class MasterRenderer {
     private StaticShader shader;
-    private Renderer renderer = new Renderer(shader);
+    private EntityRenderer entityRenderer;
 
     private Map<TextureModel, List<Entity>> entities = new HashMap<>();
 
     public MasterRenderer(StaticShader shader) {
+        enableCulling();
         this.shader = shader;
+        this.entityRenderer = new EntityRenderer(shader);
+    }
+
+    public static void enableCulling(){
+        GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glCullFace(GL11.GL_BACK);
+    }
+
+    public static void disableCulling(){
+        GL11.glDisable(GL11.GL_CULL_FACE);
     }
 
     public void render(Light light, Camera camera){
-        renderer.prepare();
+        entityRenderer.prepare();
         shader.start();
         shader.loadLight(light);
         shader.loadViewMatrix(camera);
-        renderer.render(entities);
+        entityRenderer.render(entities);
         shader.stop();
         entities.clear();
     }

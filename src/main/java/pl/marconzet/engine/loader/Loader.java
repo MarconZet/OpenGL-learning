@@ -60,7 +60,7 @@ public class Loader {
 
         GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
 
-        GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGB, tWidth, tHeight, 0,
+        GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, tWidth, tHeight, 0,
                 GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buf);
         GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
 

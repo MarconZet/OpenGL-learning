@@ -14,10 +14,10 @@ import pl.marconzet.engine.texture.ModelTexture;
 import java.util.List;
 import java.util.Map;
 
-public class Renderer {
+public class EntityRenderer {
     private StaticShader shader;
 
-    public Renderer(StaticShader shader) {
+    public EntityRenderer(StaticShader shader) {
         this.shader = shader;
     }
 
@@ -47,12 +47,17 @@ public class Renderer {
         GL20.glEnableVertexAttribArray(2);
 
         ModelTexture texture = model.getTexture();
+        if(texture.isTransparency()){
+            MasterRenderer.disableCulling();
+        }
+        shader.loadFakeLighting(texture.isFakeLighting());
         shader.loadShineVaraibles(texture.getShineDamper(), texture.getReflectivity());
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTextureID());
     }
 
     private void unbindTextureModel(){
+        MasterRenderer.enableCulling();
         GL20.glDisableVertexAttribArray(0);
         GL20.glDisableVertexAttribArray(1);
         GL20.glDisableVertexAttribArray(2);
