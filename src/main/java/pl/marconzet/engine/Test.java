@@ -31,7 +31,7 @@ public class Test {
         String dragonTexture = "texture/tex.png";
         Entity dragon = getEntity(dragonModel, dragonTexture);
         dragon.getTransformation().increasePosition(new Vector3f(0, 0, -5f)).setScale(new Vector3f().set(0.2f));
-        dragon.getModel().getTexture().setReflectivity(3);
+        dragon.getModel().getTexture().setReflectivity(1);
 
         String fernModel = "models/fern.obj";
         String fernTexture = "texture/fern.png";
