@@ -1,10 +1,13 @@
 package pl.marconzet.engine;
 
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 import pl.marconzet.engine.entity.Camera;
 import pl.marconzet.engine.entity.Entity;
 import pl.marconzet.engine.entity.Light;
+import pl.marconzet.engine.gui.GuiRenderer;
+import pl.marconzet.engine.gui.GuiTexture;
 import pl.marconzet.engine.loader.Loader;
 import pl.marconzet.engine.models.RawModel;
 import pl.marconzet.engine.models.TextureModel;
@@ -12,6 +15,9 @@ import pl.marconzet.engine.properties.CameraProperty;
 import pl.marconzet.engine.properties.TransformationProperty;
 import pl.marconzet.engine.shader.StaticShader;
 import pl.marconzet.engine.texture.ModelTexture;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by MarconZet on 26.07.2018.
@@ -49,17 +55,26 @@ public class Test {
         Camera camera = new Camera(new CameraProperty(shader), new TransformationProperty());
 
         MasterRenderer renderer = new MasterRenderer(shader);
+
+        List<GuiTexture> guis = new ArrayList<>();
+        GuiTexture gui = new GuiTexture(loader.loadTexture(Test.class.getResourceAsStream("texture/grass.png")), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
+        guis.add(gui);
+
+        GuiRenderer guiRenderer = new GuiRenderer(loader);
+
+
         while(!display.isCloseRequested() && !Input.INSTANCE.isKeyPresed(GLFW.GLFW_KEY_ESCAPE)){
             camera.move();
 
             renderer.processEntity(dragon);
             renderer.processEntity(grass);
-
             renderer.render(light, camera);
+            guiRenderer.render(guis);
             display.updateDisplay();
         }
 
         renderer.cleanUp();
+        guiRenderer.cleanUp();
         loader.cleanUp();
         display.closeDisplay();
 
