@@ -51,13 +51,19 @@ public class Test {
         grass.getTransformation().setScale(new Vector3f().set(0.1f)).setTranslation(new Vector3f(0, 0, -4));
         grass.getModel().getTexture().setTransparency(true).setFakeLighting(true).setReflectivity(0);
 
-        Light light = new Light(new Vector3f(5,10,10), new Vector3f(1,1,1));
+
+        List<Light> lights = new ArrayList<>();
+        lights.add(new Light(new Vector3f(5,10,10), new Vector3f(1,1,1)));
+        lights.add(new Light(new Vector3f(5,10,-10), new Vector3f(0,1,0)));
+        lights.add(new Light(new Vector3f(-5,10,-10), new Vector3f(1,0,0)));
+
+
         Camera camera = new Camera(new CameraProperty(shader), new TransformationProperty());
 
         MasterRenderer renderer = new MasterRenderer(shader);
 
         List<GuiTexture> guis = new ArrayList<>();
-        GuiTexture gui = new GuiTexture(loader.loadTexture(Test.class.getResourceAsStream("texture/grass.png")), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
+        GuiTexture gui = new GuiTexture(loader.loadTexture(Test.class.getResourceAsStream("gui/health.png")), new Vector2f(0.7f, -0.8f), new Vector2f(0.25f, 0.25f));
         guis.add(gui);
 
         GuiRenderer guiRenderer = new GuiRenderer(loader);
@@ -68,7 +74,7 @@ public class Test {
 
             renderer.processEntity(dragon);
             renderer.processEntity(grass);
-            renderer.render(light, camera);
+            renderer.render(lights, camera);
             guiRenderer.render(guis);
             display.updateDisplay();
         }

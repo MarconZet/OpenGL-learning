@@ -42,11 +42,11 @@ public class MasterRenderer {
         GL11.glClearColor(sky.x, sky.y, sky.z, 1);
     }
 
-    public void render(Light light, Camera camera){
+    public void render(List<Light> lights, Camera camera){
         prepare();
         shader.start();
         shader.loadSkyColour(sky);
-        shader.loadLight(light);
+        shader.loadLights(lights);
         shader.loadViewMatrix(camera);
         entityRenderer.render(entities);
         shader.stop();
