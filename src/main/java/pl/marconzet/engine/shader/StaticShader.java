@@ -15,8 +15,8 @@ public class StaticShader extends ShaderProgram {
     private int location_transformationMatrix;
     private int location_projectionMatrix;
     private int location_viewMatrix;
-    private int location_lightPosition[];
-    private int location_lightColour[];
+    private int[] location_lightPosition;
+    private int[] location_lightColour;
     private int location_shineDamper;
     private int location_reflectivity;
     private int location_fakeLighting;
@@ -37,11 +37,11 @@ public class StaticShader extends ShaderProgram {
         location_fakeLighting = super.getUniformLocation("fakeLighting");
         location_skyColour = super.getUniformLocation("skyColour");
 
-        location_lightColour = new int[4];
         location_lightPosition = new int[4];
-        for(int i=0;i<4;i++){
-            location_lightColour[i] = super.getUniformLocation("lightColour[" + i + "]");
-            location_lightPosition[i] = super.getUniformLocation("lightPosition{" + i + "}");
+        location_lightColour = new int[4];
+        for (int i = 0; i<4; i++){
+            location_lightColour[i] = super.getUniformLocation(String.format("lightColour[%d]", i));
+            location_lightPosition[i] = super.getUniformLocation(String.format("lightPosition[%d]", i));
         }
     }
 
